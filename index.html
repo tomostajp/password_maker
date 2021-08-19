@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>パスワードメーカー</title>
+
+  <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+<body class="bg-light">
+<div class="container">
+  <div class="row" id="app">
+    <div class="col-12 pt-5 pb-5 offset-6 bg-white">
+      <h1 class="text-center">パスワードメーカー</h1>
+
+      <input type="text" class="mt-5 form-control form-control-lg text-center" id="output" readonly :value="password">
+
+
+      <div class="row">
+        <div class="col-18 offset-3">
+          <h2 class="mt-5">カスタマイズ</h2>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="big_alpha" v-model="big_alpha">
+                <label class="form-check-label" for="big_alpha">英大文字</label>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="small_alpha" v-model="small_alpha">
+                <label class="form-check-label" for="small_alpha">英小文字</label>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="number" v-model="numbers">
+                <label class="form-check-label" for="number">数字</label>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="symbol" v-model="symbols">
+                <label class="form-check-label" for="symbol">記号</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex mt-3">
+            <label for="length" class="col-form-label">文字数</label>
+            <div class="ms-3">
+              <input type="number" class="form-control" id="length" v-model="length">
+            </div>
+          </div>
+
+          <div class="mt-5 d-grid gap-2 col-12 mx-auto">
+            <button class="btn btn-outline-dark">作る</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/vue@next"></script>
+<script>
+  const pMaker = {
+    data() {
+      return {
+        big_alpha: true,
+        small_alpha: true,
+        numbers: true,
+        symbols: true,
+        length: 10
+      }
+    },
+    computed: {
+      password() {
+        const big_alpha_string = 'ABCDEFGHJKLMNPQRSTUVWXYZ'
+        const small_alpha_string = 'abcdefghijkmnopqrstuvwxyz'
+        const number_string = '1234567890'
+        const symbol_string = '!@#$%^&*()'
+        let source = ''
+        source += (this.big_alpha ? big_alpha_string : '')
+        source += (this.small_alpha ? small_alpha_string : '')
+        source += (this.numbers ? number_string : '')
+        source += (this.symbols ? symbol_string : '')
+        if (!source) return '-'
+        let ret = ''
+        for(let i=0; i<this.length; i++) {
+          ret += source.substr(Math.floor(Math.random() * source.length), 1)
+        }
+        return ret
+      }
+    }
+  }
+
+  Vue.createApp(pMaker).mount('#app')
+</script>
+</body>
+</html>
